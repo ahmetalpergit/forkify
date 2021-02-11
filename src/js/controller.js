@@ -1,4 +1,4 @@
-import icons from 'url:../img/icons.svg';
+import icons from 'url:../img/icons.svg'; //loading the icons for parcel to convert them later
 
 const recipeContainer = document.querySelector('.recipe');
 const recipeMessage = recipeContainer.querySelector('.message');
@@ -16,6 +16,9 @@ const API_KEY = 'be61e14a-e6f0-434d-a5f2-d8bc0fcba41f';
 
 const showRecipe = async function () {
   try {
+    //spinner while waiting for the recipe
+    renderSpinner(recipeContainer);
+
     const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886?key=${API_KEY}`);
     const data = await res.json();
     if (!res.ok) throw new Error(`Bad Request: ${data.message} (Status:${res.status})`);
@@ -42,9 +45,26 @@ const showRecipe = async function () {
 }
 ///////////////////////////////////////
 
+//RENDER SPINNER
+
+const renderSpinner = function(parent) {
+  parent.innerHTML = '';
+
+  const markup =  `
+                    <div class="spinner">
+                      <svg>
+                        <use href="${icons}#icon-loader"></use>
+                      </svg>
+                    </div>
+  `
+  parent.insertAdjacentHTML('afterbegin', markup);
+}
+
 //RENDER RECIPE
 
 const renderRecipe = function(recipe, element) {
+  element.innerHTML = '';
+
   const html = `
     <figure class="recipe__fig">
       <img src="${recipe.imageUrl}" alt="Tomato" class="recipe__img" />
@@ -131,13 +151,7 @@ const renderRecipe = function(recipe, element) {
       </a>
     </div>
   `
-  element.insertAdjacentHTML('beforeend', html)
-
-  //insert ingredients
-
-
-  //hide instruction message
-  recipeMessage.style.display = 'none';
+  element.insertAdjacentHTML('beforeend', html);
 }
 
 const App = (async function() {
