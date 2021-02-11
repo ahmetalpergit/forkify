@@ -1,4 +1,6 @@
 import icons from 'url:../img/icons.svg'; //loading the icons for parcel to convert them later
+import 'core-js/stable';
+import 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 const recipeMessage = recipeContainer.querySelector('.message');
