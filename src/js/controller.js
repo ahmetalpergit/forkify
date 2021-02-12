@@ -3,7 +3,10 @@ import 'core-js/stable';
 import 'regenerator-runtime';
 
 const recipeContainer = document.querySelector('.recipe');
-const recipeMessage = recipeContainer.querySelector('.message');
+const search = document.querySelector('.search');
+const listContainer = document.querySelector('.results');
+
+///////////////////////////////////////
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -16,12 +19,56 @@ const timeout = function (s) {
 // https://forkify-api.herokuapp.com/v2
 const API_KEY = 'be61e14a-e6f0-434d-a5f2-d8bc0fcba41f';
 
+const showRecipeList = async function(query) {
+  const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes?search=${query}&key=${API_KEY}`)
+  const data = await res.json();
+
+  const recipeList = data.data.recipes;
+  renderRecipeList(recipeList)
+}
+
+const renderRecipeList = function(listArray) {
+  listContainer.innerHTML = '';
+
+  listArray.forEach(el => {
+    const recipe = {
+      id: el.id,
+      title: el.title,
+      publisher: el.publisher,
+      imageUrl: el.image_url,
+    }
+    const html = `
+                <li class="preview">
+                  <a class="preview__link" href="#${recipe.id}">
+                    <figure class="preview__fig">
+                      <img src="${recipe.imageUrl}" alt="${recipe.title}" />
+                    </figure>
+                    <div class="preview__data">
+                      <h4 class="preview__title">${recipe.title}</h4>
+                      <p class="preview__publisher">${recipe.publisher}</p>
+                      ${recipe?.user ? `<div class="preview__user-generated">
+                                        <svg>
+                                          <use href="${icons}#icon-user"></use>
+                                        </svg>
+                                      </div>
+                    ` : ''}
+                    </div>
+                  </a>
+                </li>
+    `
+    listContainer.insertAdjacentHTML('afterbegin', html);
+  })
+}
+
 const showRecipe = async function () {
+  //the id is assigned after the hashchange/load eventlistener.
+  const id = window.location.hash.slice(1);
+  if (id === '') return; //stop load event from crashing the app due to empty id
   try {
     //spinner while waiting for the recipe
     renderSpinner(recipeContainer);
 
-    const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886?key=${API_KEY}`);
+    const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}?key=${API_KEY}`);
     const data = await res.json();
     if (!res.ok) throw new Error(`Bad Request: ${data.message} (Status:${res.status})`);
 
@@ -37,18 +84,14 @@ const showRecipe = async function () {
       ingredients: recipe.ingredients,
       cookingTime: recipe.cooking_time,
     }
-    console.log(recipe);
-
-    return recipe;
+    renderRecipe(recipe, recipeContainer)
 
   } catch (err) {
     console.error(err.message);
   }
 }
-///////////////////////////////////////
 
 //RENDER SPINNER
-
 const renderSpinner = function(parent) {
   parent.innerHTML = '';
 
@@ -154,9 +197,17 @@ const renderRecipe = function(recipe, element) {
     </div>
   `
   element.insertAdjacentHTML('beforeend', html);
-}
+};
 
-const App = (async function() {
-  const recipe = await showRecipe();
-  renderRecipe(recipe, recipeContainer)
-})();
+//LISTENERS
+
+//listen for events to load specific recipe
+['hashchange', 'load'].forEach(event => window.addEventListener(event, showRecipe));
+
+//submitting a query on search bar
+search.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const query = e.target.querySelector('.search__field').value;
+  showRecipeList(query);
+})
+
