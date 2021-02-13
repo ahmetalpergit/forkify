@@ -7,18 +7,14 @@ const search = document.querySelector('.search');
 
 ///////////////////////////////////////
 
-// const timeout = function (s) {
-//   return new Promise(function (_, reject) {
-//     setTimeout(function () {
-//       reject(new Error(`Request took too long! Timeout after ${s} second`));
-//     }, s * 1000);
-//   });
-// };
-
 const showRecipeList = async function(query) {
-  listView.renderSpinner();
-  await model.loadRecipeList(query);
-  listView.render(model.state.recipeList)
+  try {
+    listView.renderSpinner();
+    await model.loadRecipeList(query);
+    listView.render(model.state.recipeList)
+  } catch (err) {
+    console.error(err.message);
+  }
 };
 
 const showRecipe = async function () {
