@@ -3,7 +3,6 @@ import 'regenerator-runtime';
 import * as model from './model';
 import recipeView from './views/recipeView';
 import listView from './views/listView';
-const search = document.querySelector('.search');
 
 ///////////////////////////////////////
 
@@ -33,15 +32,12 @@ const showRecipe = async function () {
   }
 };
 
-// LISTENERS
+const init = function() {
+  //listen for events to load specific recipe
+  recipeView.addHandlerRender(showRecipe);
+  //submitting a query on search bar
+  listView.addHandlerRender(showRecipeList);
+}
+init();
 
-//listen for events to load specific recipe
-['hashchange', 'load'].forEach(event => window.addEventListener(event, showRecipe));
-
-//submitting a query on search bar
-search.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const query = e.target.querySelector('.search__field').value;
-  showRecipeList(query);
-})
 

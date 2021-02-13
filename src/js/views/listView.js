@@ -33,6 +33,14 @@ class ListView {
     `
     this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
   }
+  addHandlerRender(handler) {
+    const search = document.querySelector('.search');
+    search.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const query = e.target.querySelector('.search__field').value;
+      handler(query);
+    })
+  }
   #clear() {
     this.#parentContainer.innerHTML = '';
   }

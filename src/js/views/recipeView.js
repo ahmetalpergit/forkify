@@ -4,6 +4,7 @@ import {Fraction} from 'fractional';
 class RecipeView {
     #parentContainer = document.querySelector('.recipe');
     #data;
+    
     render(data) {
         this.#data = data;
         const html = this.#generateMarkup();
@@ -21,7 +22,9 @@ class RecipeView {
         `
         this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
     }
-
+    addHandlerRender(handler) {
+        ['hashchange', 'load'].forEach(event => window.addEventListener(event, handler));
+    }
     #clear() {
         this.#parentContainer.innerHTML = '';
     }
