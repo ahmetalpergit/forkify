@@ -3,6 +3,7 @@ import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to c
 class ListView {
   #parentContainer = document.querySelector('.results');
   #data;
+  #errorMessage = "Can't find recipes for that query, please another."
 
   render(data) {
     this.#data = data;
@@ -41,6 +42,20 @@ class ListView {
       handler(query);
     })
   }
+  errorRender(message = this.#errorMessage) {
+    const markup = `
+        <div class="error">
+            <div>
+                <svg>
+                    <use href="${icons}#icon-alert-triangle"></use>
+                </svg>
+            </div>
+            <p>${message}</p>
+        </div>
+    `
+    this.#clear();
+    this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
+}
   #clear() {
     this.#parentContainer.innerHTML = '';
   }

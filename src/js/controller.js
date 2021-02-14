@@ -10,7 +10,8 @@ const showRecipeList = async function(query) {
   try {
     listView.renderSpinner();
     await model.loadRecipeList(query);
-    listView.render(model.state.recipeList)
+    model.state.recipeList.length > 0 ? listView.render(model.state.recipeList) : listView.errorRender();
+    
   } catch (err) {
     console.error(err.message);
   }
@@ -28,14 +29,15 @@ const showRecipe = async function () {
     recipeView.render(model.state.recipe)
 
   } catch (err) {
-    console.error(err.message);
+    // console.error(err.message);
+    recipeView.errorRender();
   }
 };
 
 const init = function() {
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
-  //submitting a query on search bar
+  //listen for search bar submit
   listView.addHandlerRender(showRecipeList);
 }
 init();

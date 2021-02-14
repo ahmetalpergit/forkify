@@ -8,24 +8,35 @@ export const state = {
 };
 
 export const loadRecipeList = async function(query) {
-    const data = await getJSON(`${baseURL}?search=${query}`);
-    const {recipes} = data.data;
-    state.recipeList = recipes;
+    try {
+        const data = await getJSON(`${baseURL}?search=${query}`);
+        const {recipes} = data.data;
+        state.recipeList = recipes;
+    } catch (err) {
+        // console.error(err);
+        throw err;
+    }
 };
 
 export const loadRecipe = async function(id) {
-    const data = await getJSON(`${baseURL}/${id}`)
+    try {
+        const data = await getJSON(`${baseURL}/${id}`)
 
-    const {recipe} = data.data;
-
-    state.recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      imageUrl: recipe.image_url,
-      servings: recipe.servings,
-      ingredients: recipe.ingredients,
-      cookingTime: recipe.cooking_time,
+        const {recipe} = data.data;
+    
+        state.recipe = {
+          id: recipe.id,
+          title: recipe.title,
+          publisher: recipe.publisher,
+          sourceUrl: recipe.source_url,
+          imageUrl: recipe.image_url,
+          servings: recipe.servings,
+          ingredients: recipe.ingredients,
+          cookingTime: recipe.cooking_time,
+        }
+    }
+    catch (err) {
+        console.error(err);
+        throw err;
     }
 };
