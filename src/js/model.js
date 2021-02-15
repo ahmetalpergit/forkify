@@ -4,14 +4,18 @@ import { getJSON } from './helpers';
 
 export const state = {
     recipe: {},
-    recipeList: {},
+    search: {
+        query: '',
+        results: []
+    }
 };
 
 export const loadRecipeList = async function(query) {
     try {
         const data = await getJSON(`${baseURL}?search=${query}`);
         const {recipes} = data.data;
-        state.recipeList = recipes;
+        state.search.query = query;
+        state.search.results = recipes;
     } catch (err) {
         // console.error(err);
         throw err;
@@ -20,7 +24,7 @@ export const loadRecipeList = async function(query) {
 
 export const loadRecipe = async function(id) {
     try {
-        const data = await getJSON(`${baseURL}/${id}`)
+        const data = await getJSON(`${baseURL}${id}`)
 
         const {recipe} = data.data;
     
