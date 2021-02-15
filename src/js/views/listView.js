@@ -8,14 +8,8 @@ class ListView {
   render(data) {
     this.#data = data;
     this.#clear();
-    this.#data.forEach(el => {
-      const recipe = {
-        id: el.id,
-        title: el.title,
-        publisher: el.publisher,
-        imageUrl: el.image_url,
-      }
-      this.#parentContainer.insertAdjacentHTML('afterbegin', this.#generateMarkup(recipe));
+    this.#data.forEach(recipe => {
+      this.#parentContainer.insertAdjacentHTML('beforeend', this.#generateMarkup(recipe));
     });
     this.#parentContainer.addEventListener('click', function(e) {
       const allElements = document.querySelectorAll('.preview__link');

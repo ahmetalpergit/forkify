@@ -10,7 +10,7 @@ const showRecipeList = async function(query) {
   try {
     listView.renderSpinner();
     await model.loadRecipeList(query);
-    model.state.recipeList.length > 0 ? listView.render(model.state.recipeList) : listView.errorRender();
+    model.state.search.results?.length > 0 ? listView.render(model.state.search.results) : listView.errorRender();
     
   } catch (err) {
     console.error(err.message);
