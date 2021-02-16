@@ -50,3 +50,12 @@ export const loadRecipe = async function(id) {
         throw err;
     }
 };
+
+export const getResultsPage = function(page) {
+    const start = (page - 1) * 10;
+    const end = page * 10;
+    state.search.currentPage = page;
+    state.search.totalPage = Math.ceil(state.search.results.length / 10);
+
+    return state.search.results.slice(start, end);
+}

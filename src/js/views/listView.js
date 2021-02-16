@@ -3,10 +3,12 @@ import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to c
 class ListView {
   #parentContainer = document.querySelector('.results');
   #data;
+  #totalPage;
   #errorMessage = "Can't find recipes for that query, please another."
 
-  render(data) {
+  render(data, currentPage, totalPage) {
     this.#data = data;
+    this.#totalPage = totalPage;
     this.#clear();
     this.#data.forEach(recipe => {
       this.#parentContainer.insertAdjacentHTML('beforeend', this.#generateMarkup(recipe));
@@ -15,7 +17,31 @@ class ListView {
       const allElements = document.querySelectorAll('.preview__link');
       allElements.forEach(item => item.classList.remove(`preview__link--active`));
       e.target.closest(`.preview__link`).classList.add(`preview__link--active`);
-    })
+    });
+    document.querySelector('.pagination').insertAdjacentHTML('beforeend', this.renderPagination(currentPage))
+  }
+  renderPagination(page) {
+    const markup = page === 1 ? `
+    <button class="btn--inline pagination__btn--next">
+      <span>Page 2</span>
+      <svg class="search__icon">
+        <use href="${icons}#icon-arrow-right"></use>
+      </svg>
+    </button>
+    ` : `<button class="btn--inline pagination__btn--prev">
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+          </svg>
+          <span>Page ${page}</span>
+        </button>
+        <button class="btn--inline pagination__btn--next">
+          <span>Page ${page + 1}</span>
+          <svg class="search__icon">
+            <use href="src/img/icons.svg#icon-arrow-right"></use>
+          </svg>
+        </button>
+        `
+    return markup;
   }
   renderSpinner() {
     this.#clear();
@@ -32,7 +58,7 @@ class ListView {
     const search = document.querySelector('.search');
     search.addEventListener('submit', function(e) {
       e.preventDefault();
-      const query = e.target.querySelector('.search__field').value;
+      let query = e.target.querySelector('.search__field').value;
       handler(query);
     })
   }
@@ -49,7 +75,7 @@ class ListView {
     `
     this.#clear();
     this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
-}
+  }
   #clear() {
     this.#parentContainer.innerHTML = '';
   }
