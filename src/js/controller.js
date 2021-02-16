@@ -11,9 +11,15 @@ const showSearchResults = async function(query) {
   try {
     searchView.renderSpinner();
     await model.loadRecipeList(query);
-    model.state.search.results?.length > 0 ? searchView.render(model.getResultsPage(1)) : searchView.errorRender();
-    pageView._clear();
-    pageView.render(model.state.search.currentPage, model.state.search.totalPage);
+
+    if (model.state.search.results?.length > 0) {
+      searchView.render(model.getResultsPage(1))
+      pageView._clear();
+      pageView.render(model.state.search.currentPage, model.state.search.totalPage);
+    } else {
+      pageView._clear();
+      searchView.errorRender();
+    }
     
   } catch (err) {
     console.error(err.message);

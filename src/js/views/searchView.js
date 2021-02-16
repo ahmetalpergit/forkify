@@ -3,7 +3,7 @@ import View from './View';
 
 class searchView extends View {
   _parentContainer = document.querySelector('.results');
-  _errorMessage = "Can't find recipes for that query, please another."
+  _errorMessage = `Can't find recipes for that query, please another.`
 
   render(data) {
     this._data = data;
@@ -24,6 +24,7 @@ class searchView extends View {
       e.preventDefault();
       let query = e.target.querySelector('.search__field').value;
       handler(query);
+      document.querySelector('.search__field').value = ''
     })
   }
 
