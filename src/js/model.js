@@ -1,4 +1,4 @@
-import {baseURL} from './config';
+import { baseURL, PAGINATION_PAGE_COUNT } from './config';
 import { getJSON } from './helpers';
 
 export const state = {
@@ -52,10 +52,10 @@ export const loadRecipe = async function(id) {
 };
 
 export const getResultsPage = function(page) {
-    const start = (page - 1) * 10;
-    const end = page * 10;
+    const start = (page - 1) * PAGINATION_PAGE_COUNT;
+    const end = page * PAGINATION_PAGE_COUNT;
     state.search.currentPage = page;
-    state.search.totalPage = Math.ceil(state.search.results.length / 10);
+    state.search.totalPage = Math.ceil(state.search.results.length / PAGINATION_PAGE_COUNT);
 
     return state.search.results.slice(start, end);
 }

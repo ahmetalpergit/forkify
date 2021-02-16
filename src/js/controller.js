@@ -2,15 +2,18 @@ import 'core-js/stable';
 import 'regenerator-runtime';
 import * as model from './model';
 import recipeView from './views/recipeView';
-import listView from './views/listView';
+import searchView from './views/searchView';
+import pageView from './views/pageView';
 
 ///////////////////////////////////////
 
 const showRecipeList = async function(query) {
   try {
-    listView.renderSpinner();
+    searchView.renderSpinner();
     await model.loadRecipeList(query);
-    model.state.search.results?.length > 0 ? listView.render(model.getResultsPage(1), model.state.search.currentPage, model.state.search.totalPage) : listView.errorRender();
+    model.state.search.results?.length > 0 ? searchView.render(model.getResultsPage(1)) : searchView.errorRender();
+    pageView.render(model.state.search.currentPage, model.state.search.totalPage);
+    pageView.addHandlerPagination()
     
   } catch (err) {
     console.error(err.message);
@@ -38,7 +41,7 @@ const init = function() {
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
-  listView.addHandlerRender(showRecipeList);
+  searchView.addHandlerRender(showRecipeList);
 }
 init();
 

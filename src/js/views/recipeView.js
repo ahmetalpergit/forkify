@@ -1,54 +1,26 @@
+import View from './View';
 import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to convert them later
 import {Fraction} from 'fractional';
 
-class RecipeView {
-    #parentContainer = document.querySelector('.recipe');
-    #data;
-    #errorMessage = "Can't find recipe, please try another one!"
+class RecipeView extends View {
+    _parentContainer = document.querySelector('.recipe');
+    _errorMessage = "Can't find recipe, please try another one!"
 
     render(data) {
-        this.#data = data;
-        const html = this.#generateMarkup();
-        this.#clear();
-        this.#parentContainer.insertAdjacentHTML('beforeend', html);
-    }
-    renderSpinner() {
-        this.#clear();
-        const markup =  `
-            <div class="spinner">
-                <svg>
-                    <use href="${icons}#icon-loader"></use>
-                </svg>
-            </div>
-        `
-        this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
+        this._data = data;
+        const html = this._generateMarkup();
+        this._clear();
+        this._parentContainer.insertAdjacentHTML('beforeend', html);
     }
     addHandlerRender(handler) {
         ['hashchange', 'load'].forEach(event => window.addEventListener(event, handler));
     }
-    errorRender(message = this.#errorMessage) {
-        const markup = `
-            <div class="error">
-                <div>
-                    <svg>
-                        <use href="${icons}#icon-alert-triangle"></use>
-                    </svg>
-                </div>
-                <p>${message}</p>
-            </div>
-        `
-        this.#clear();
-        this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
-    }
-    #clear() {
-        this.#parentContainer.innerHTML = '';
-    }
-    #generateMarkup() {
+    _generateMarkup() {
         return `
             <figure class="recipe__fig">
-            <img src="${this.#data.imageUrl}" alt="${this.#data.title}" class="recipe__img" />
+            <img src="${this._data.imageUrl}" alt="${this._data.title}" class="recipe__img" />
             <h1 class="recipe__title">
-                <span>${this.#data.title}</span>
+                <span>${this._data.title}</span>
             </h1>
             </figure>
         
@@ -57,14 +29,14 @@ class RecipeView {
                 <svg class="recipe__info-icon">
                 <use href="${icons}#icon-clock"></use>
                 </svg>
-                <span class="recipe__info-data recipe__info-data--minutes">${this.#data.cookingTime}</span>
+                <span class="recipe__info-data recipe__info-data--minutes">${this._data.cookingTime}</span>
                 <span class="recipe__info-text">minutes</span>
             </div>
             <div class="recipe__info">
                 <svg class="recipe__info-icon">
                 <use href="${icons}#icon-users"></use>
                 </svg>
-                <span class="recipe__info-data recipe__info-data--people">${this.#data.servings}</span>
+                <span class="recipe__info-data recipe__info-data--people">${this._data.servings}</span>
                 <span class="recipe__info-text">servings</span>
         
                 <div class="recipe__info-buttons">
@@ -96,7 +68,7 @@ class RecipeView {
             <div class="recipe__ingredients">
             <h2 class="heading--2">Recipe ingredients</h2>
             <ul class="recipe__ingredient-list">
-            ${this.#data.ingredients.map(ing => {
+            ${this._data.ingredients.map(ing => {
                 return `<li class="recipe__ingredient">
                         <svg class="recipe__icon">
                             <use href="${icons}#icon-check"></use>
@@ -115,12 +87,12 @@ class RecipeView {
             <h2 class="heading--2">How to cook it</h2>
             <p class="recipe__directions-text">
                 This recipe was carefully designed and tested by
-                <span class="recipe__publisher">${this.#data.publisher}</span>. Please check out
+                <span class="recipe__publisher">${this._data.publisher}</span>. Please check out
                 directions at their website.
             </p>
             <a
                 class="btn--small recipe__btn"
-                href="${this.#data.sourceUrl}"
+                href="${this._data.sourceUrl}"
                 target="_blank"
             >
                 <span>Directions</span>
