@@ -7,13 +7,12 @@ import pageView from './views/pageView';
 
 ///////////////////////////////////////
 
-const showRecipeList = async function(query) {
+const showSearchResults = async function(query) {
   try {
     searchView.renderSpinner();
     await model.loadRecipeList(query);
     model.state.search.results?.length > 0 ? searchView.render(model.getResultsPage(1)) : searchView.errorRender();
     pageView.render(model.state.search.currentPage, model.state.search.totalPage);
-    pageView.addHandlerPagination()
     
   } catch (err) {
     console.error(err.message);
@@ -37,11 +36,19 @@ const showRecipe = async function () {
   }
 };
 
+const controlPagination = function(page) {
+  searchView.render(model.getResultsPage(page))
+  model.state.currentPage++;
+  pageView.render(model.state.search.currentPage, model.state.search.totalPage);
+}
+
 const init = function() {
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
-  searchView.addHandlerRender(showRecipeList);
+  searchView.addHandlerRender(showSearchResults);
+  //list for pagination clicks
+  pageView.addHandlerPagination(controlPagination);
 }
 init();
 
