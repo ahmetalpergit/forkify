@@ -56,9 +56,9 @@ class pageView extends View {
     }
     addHandlerPagination(handler) {
         this._parentContainer.addEventListener('click', function(e) {
+            if (!e.target.closest('.btn--inline')) return;
             this._clear();
             const pageButton = e.target.closest('.btn--inline');
-            console.log(pageButton);
             pageButton.classList.contains('pagination__btn--next') ? this._currentPage++ : this._currentPage--;
             handler(this._currentPage);
         }.bind(this))

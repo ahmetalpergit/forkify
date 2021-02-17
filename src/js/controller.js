@@ -45,7 +45,6 @@ const showRecipe = async function () {
 
 const controlPagination = function(page) {
   searchView.render(model.getResultsPage(page))
-  model.state.currentPage++;
   pageView.render(model.state.search.currentPage, model.state.search.totalPage);
 }
 
