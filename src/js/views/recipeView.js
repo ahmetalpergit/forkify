@@ -13,14 +13,30 @@ class RecipeView extends View {
         this._clear();
         this._parentContainer.insertAdjacentHTML('beforeend', html);
     }
+    update(data) {
+        this._data = data;
+        this._data.servings === 1 ? document.querySelector('.btn--decrease-servings').classList.add('hidden') : document.querySelector('.btn--decrease-servings').classList.remove('hidden');
+        const newHtml = this._generateMarkup();
+
+        const newDOM = document.createRange().createContextualFragment(newHtml);
+        const newMarkup = Array.from(newDOM.querySelectorAll('*'));
+        const oldMarkup = Array.from(this._parentContainer.querySelectorAll('*'));
+
+        newMarkup.forEach((el, i) => {
+            const currentOldElement = oldMarkup[i];
+
+            if(!el.isEqualNode(currentOldElement) && el.firstChild?.nodeValue.trim() !== '')
+                currentOldElement.textContent = el.textContent;
+        })
+    }
     addHandlerRender(handler) {
         ['hashchange', 'load'].forEach(event => window.addEventListener(event, handler));
     }
     addHandlerServing(handler) {
-        this._servingButtons = document.querySelector('.recipe__info-buttons')
+        this._servingButtons = document.querySelector('.recipe__info-buttons');
         this._servingButtons.addEventListener('click', function(e) {
             //Guard clause if the button doesn't exist or is removed due to serving count
-            if (!e.target.closest('.btn--tiny')) return;
+            if (!e.target.closest('.btn--tiny') || e.target.closest('.btn--tiny').classList.contains('hidden')) return;
             //designate the action and call the handler
             if (e.target.closest('.btn--tiny').classList.contains('btn--increase-servings')) {
                 handler('increase');
@@ -54,7 +70,7 @@ class RecipeView extends View {
                 <span class="recipe__info-text">servings</span>
         
                 <div class="recipe__info-buttons">
-                <button class="btn--tiny btn--decrease-servings${this._data.servings === 1 ? ' hidden' : ''}">
+                <button class="btn--tiny btn--decrease-servings">
                     <svg>
                     <use href="${icons}#icon-minus-circle"></use>
                     </svg>
