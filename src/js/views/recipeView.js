@@ -4,6 +4,7 @@ import {Fraction} from 'fractional';
 
 class RecipeView extends View {
     _parentContainer = document.querySelector('.recipe');
+    _isBookmarked;
     _servingButtons;
     _errorMessage = "Can't find recipe, please try another one!"
 
@@ -43,6 +44,13 @@ class RecipeView extends View {
             } else {
                 handler('decrease');
             }
+        }.bind(this))
+    }
+    addHandlerBookmark(handler) {
+        const bookmarkBtn = document.querySelector('.btn--round')
+        bookmarkBtn.addEventListener('click', function() {
+            bookmarkBtn.querySelectorAll('svg').forEach(el => el.classList.toggle('noDisplay'))
+            handler(this._data.id)
         }.bind(this))
     }
     _generateMarkup() {
@@ -89,8 +97,11 @@ class RecipeView extends View {
                 </svg>
             </div>
             <button class="btn--round">
-                <svg class="">
-                <use href="${icons}#icon-bookmark-fill"></use>
+                <svg class="noDisplay">
+                    <use href="${icons}#icon-bookmark-fill"></use>
+                </svg>
+                <svg>
+                    <use href="${icons}#icon-bookmark"></use>
                 </svg>
             </button>
             </div>

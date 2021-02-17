@@ -42,6 +42,10 @@
   opacity: 0;
 }
 
+.noDisplay {
+  display: none;
+}
+
 .upload {
   display: grid;
   grid-template-columns: 1fr 1fr;

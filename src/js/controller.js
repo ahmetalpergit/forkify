@@ -38,6 +38,7 @@ const showRecipe = async function () {
     recipeView.render(model.state.recipe)
     //listen for serving
     recipeView.addHandlerServing(controlServing);
+    recipeView.addHandlerBookmark(controlBookmark);
   } catch (err) {
     console.error(err.message);
     recipeView.errorRender();
@@ -52,6 +53,10 @@ const controlPagination = function(page) {
 const controlServing = function(action) {
   model.updateServings(action);
   recipeView.update(model.state.recipe);
+}
+
+const controlBookmark = function(recipeId) {
+  model.addBookmark(recipeId);
 }
 
 const init = function() {

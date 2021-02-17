@@ -67,3 +67,7 @@ export const getResultsPage = function(page) {
     state.search.totalPage = Math.ceil(state.search.results.length / PAGINATION_PAGE_COUNT);
     return state.search.results.slice(start, end);
 }
+
+export const addBookmark = function(recipeId) {
+    console.log(recipeId);
+}
