@@ -4,6 +4,7 @@ import * as model from './model';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import pageView from './views/pageView';
+import bookmarkListView from './views/bookmarkListView';
 
 ///////////////////////////////////////
 
@@ -55,8 +56,9 @@ const controlServing = function(action) {
   recipeView.update(model.state.recipe);
 }
 
-const controlBookmark = function(recipeId) {
-  model.addBookmark(recipeId);
+const controlBookmark = function(recipe) {
+  model.addBookmark(JSON.stringify(recipe));
+  bookmarkListView.render(model.state.bookmarks);
 }
 
 const init = function() {

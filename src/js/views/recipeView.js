@@ -50,7 +50,7 @@ class RecipeView extends View {
         const bookmarkBtn = document.querySelector('.btn--round')
         bookmarkBtn.addEventListener('click', function() {
             bookmarkBtn.querySelectorAll('svg').forEach(el => el.classList.toggle('noDisplay'))
-            handler(this._data.id)
+            handler(this._data)
         }.bind(this))
     }
     _generateMarkup() {

@@ -6,7 +6,8 @@ export const state = {
         query: '',
         results: []
     },
-    recipe: {}
+    recipe: {},
+    bookmarks: []
 };
 
 export const loadRecipeList = async function(query) {
@@ -68,6 +69,16 @@ export const getResultsPage = function(page) {
     return state.search.results.slice(start, end);
 }
 
-export const addBookmark = function(recipeId) {
-    console.log(recipeId);
+export const addBookmark = function(recipeStr) {
+    let index;  //index of the element if found by some method
+    const hasRecipe = state.bookmarks.some((rec, i) => {
+        index = i;  //updates index until it finds one and then breaks the execution
+        return JSON.stringify(rec) === recipeStr
+    });
+
+    if (hasRecipe) {
+        state.bookmarks.splice(index, 1);
+    } else {
+        state.bookmarks.push(JSON.parse(recipeStr))
+    }
 }
