@@ -1,4 +1,4 @@
-import { icons } from 'url:../../img/icons.svg';
+import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to convert them later
 
 export default class View {
     _data;
