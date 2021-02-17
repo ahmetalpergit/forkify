@@ -49,28 +49,8 @@ const controlPagination = function(page) {
   pageView.render(model.state.search.currentPage, model.state.search.totalPage);
 }
 
-const controlServing = function(data, action) {
-  let currentServing = data.servings;
-  
-  if (action === 'increase') {
-    const newIngredientsWithUpdatedQuantities = data.ingredients.map(ing => {
-      if (ing.quantity) {
-        ing.quantity = (ing.quantity / currentServing) * (currentServing + 1);
-      }
-      return ing;
-    })
-    model.state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
-    model.state.recipe.servings = ++currentServing;
-  } else {
-    const newIngredientsWithUpdatedQuantities = data.ingredients.map(ing => {
-      if (ing.quantity) {
-        ing.quantity = (ing.quantity / currentServing) * (currentServing - 1);
-      }
-      return ing;
-    })
-    model.state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
-    model.state.recipe.servings = --currentServing;
-  }
+const controlServing = function(action) {
+  model.updateServings(action);
   recipeView.render(model.state.recipe);
   recipeView.addHandlerServing(controlServing);
 }

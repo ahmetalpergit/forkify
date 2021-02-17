@@ -51,6 +51,34 @@ export const loadRecipe = async function(id) {
     }
 };
 
+export const updateServings = function(action) {
+    let currentServing = state.recipe.servings;
+
+    if (action === 'increase') {
+        const newIngredientsWithUpdatedQuantities = state.recipe.ingredients.map(ing => {
+            if (ing.quantity) {
+                ing.quantity = (ing.quantity / currentServing) * (currentServing + 1);
+            }
+            return ing;
+        });
+        state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
+        state.recipe.servings = ++currentServing;
+    } 
+    
+    if (action === 'decrease') {
+        const newIngredientsWithUpdatedQuantities = state.recipe.ingredients.map(ing => {
+            if (ing.quantity) {
+                ing.quantity = (ing.quantity / currentServing) * (currentServing - 1);
+            }
+            return ing;
+        });
+        state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
+        state.recipe.servings = --currentServing;
+    }
+    
+    return;
+}
+
 export const getResultsPage = function(page) {
     const start = (page - 1) * PAGINATION_PAGE_COUNT;
     const end = page * PAGINATION_PAGE_COUNT;

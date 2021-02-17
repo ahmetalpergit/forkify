@@ -19,12 +19,13 @@ class RecipeView extends View {
     addHandlerServing(handler) {
         this._servingButtons = document.querySelector('.recipe__info-buttons')
         this._servingButtons.addEventListener('click', function(e) {
+            //Guard clause if the button doesn't exist or is removed due to serving count
             if (!e.target.closest('.btn--tiny')) return;
-
+            //designate the action and call the handler
             if (e.target.closest('.btn--tiny').classList.contains('btn--increase-servings')) {
-                handler(this._data, 'increase');
+                handler('increase');
             } else {
-                handler(this._data, 'decrease');
+                handler('decrease');
             }
         }.bind(this))
     }
