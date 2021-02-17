@@ -27,7 +27,6 @@ class searchView extends View {
       document.querySelector('.search__field').value = ''
     })
   }
-
   _generateMarkup(recipe) {
     return `
       <li class="preview">

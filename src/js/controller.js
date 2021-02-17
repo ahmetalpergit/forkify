@@ -36,9 +36,9 @@ const showRecipe = async function () {
     recipeView.renderSpinner();
     await model.loadRecipe(id);
     recipeView.render(model.state.recipe)
-
+    recipeView.addHandlerServing(controlServing);
   } catch (err) {
-    // console.error(err.message);
+    console.error(err.message);
     recipeView.errorRender();
   }
 };
@@ -49,13 +49,40 @@ const controlPagination = function(page) {
   pageView.render(model.state.search.currentPage, model.state.search.totalPage);
 }
 
+const controlServing = function(data, action) {
+  let currentServing = data.servings;
+  
+  if (action === 'increase') {
+    const newIngredientsWithUpdatedQuantities = data.ingredients.map(ing => {
+      if (ing.quantity) {
+        ing.quantity = (ing.quantity / currentServing) * (currentServing + 1);
+      }
+      return ing;
+    })
+    model.state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
+    model.state.recipe.servings = ++currentServing;
+  } else {
+    const newIngredientsWithUpdatedQuantities = data.ingredients.map(ing => {
+      if (ing.quantity) {
+        ing.quantity = (ing.quantity / currentServing) * (currentServing - 1);
+      }
+      return ing;
+    })
+    model.state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
+    model.state.recipe.servings = --currentServing;
+  }
+  recipeView.render(model.state.recipe);
+  recipeView.addHandlerServing(controlServing);
+}
+
 const init = function() {
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
   searchView.addHandlerRender(showSearchResults);
-  //list for pagination clicks
+  //listen for pagination
   pageView.addHandlerPagination(controlPagination);
+  //listen for serving
 }
 init();
 

@@ -54,7 +54,6 @@ class pageView extends View {
         }
         return markup;
     }
-
     addHandlerPagination(handler) {
         this._parentContainer.addEventListener('click', function(e) {
             this._clear();

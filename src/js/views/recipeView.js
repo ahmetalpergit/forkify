@@ -4,6 +4,7 @@ import {Fraction} from 'fractional';
 
 class RecipeView extends View {
     _parentContainer = document.querySelector('.recipe');
+    _servingButtons;
     _errorMessage = "Can't find recipe, please try another one!"
 
     render(data) {
@@ -14,6 +15,18 @@ class RecipeView extends View {
     }
     addHandlerRender(handler) {
         ['hashchange', 'load'].forEach(event => window.addEventListener(event, handler));
+    }
+    addHandlerServing(handler) {
+        this._servingButtons = document.querySelector('.recipe__info-buttons')
+        this._servingButtons.addEventListener('click', function(e) {
+            if (!e.target.closest('.btn--tiny')) return;
+
+            if (e.target.closest('.btn--tiny').classList.contains('btn--increase-servings')) {
+                handler(this._data, 'increase');
+            } else {
+                handler(this._data, 'decrease');
+            }
+        }.bind(this))
     }
     _generateMarkup() {
         return `
@@ -40,7 +53,7 @@ class RecipeView extends View {
                 <span class="recipe__info-text">servings</span>
         
                 <div class="recipe__info-buttons">
-                <button class="btn--tiny btn--increase-servings">
+                <button class="btn--tiny btn--decrease-servings${this._data.servings === 1 ? ' hidden' : ''}">
                     <svg>
                     <use href="${icons}#icon-minus-circle"></use>
                     </svg>
