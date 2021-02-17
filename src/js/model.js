@@ -52,31 +52,12 @@ export const loadRecipe = async function(id) {
 };
 
 export const updateServings = function(action) {
-    let currentServing = state.recipe.servings;
-
-    if (action === 'increase') {
-        const newIngredientsWithUpdatedQuantities = state.recipe.ingredients.map(ing => {
-            if (ing.quantity) {
-                ing.quantity = (ing.quantity / currentServing) * (currentServing + 1);
-            }
-            return ing;
-        });
-        state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
-        state.recipe.servings = ++currentServing;
-    } 
-    
-    if (action === 'decrease') {
-        const newIngredientsWithUpdatedQuantities = state.recipe.ingredients.map(ing => {
-            if (ing.quantity) {
-                ing.quantity = (ing.quantity / currentServing) * (currentServing - 1);
-            }
-            return ing;
-        });
-        state.recipe.ingredients = newIngredientsWithUpdatedQuantities;
-        state.recipe.servings = --currentServing;
-    }
-    
-    return;
+    if (action !== 'increase' && action !== 'decrease') return;
+    action === 'increase' ? state.newServings = (state.recipe.servings + 1) : state.newServings = (state.recipe.servings - 1);
+    state.recipe.ingredients.forEach(ing => {
+        if (ing.quantity) ing.quantity = ing.quantity / state.recipe.servings * state.newServings
+    })
+    state.recipe.servings = state.newServings;
 }
 
 export const getResultsPage = function(page) {
