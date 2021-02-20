@@ -3,6 +3,7 @@ import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to c
 
 class addRecipeView extends View {
     _parentContainer = document.querySelector('.overlay');
+    _recipeId = 0;
 
     addHandlerAddRecipe(handler) {
         document.querySelector('.nav__btn--add-recipe').addEventListener('click', function() {
@@ -19,53 +20,60 @@ class addRecipeView extends View {
             }
         }.bind(this)))
     }
-    addHandlerUpload() {
+    addHandlerUpload(handler) {
         const uploadContainer = document.querySelector('.upload');
         uploadContainer.addEventListener('submit', function(e){
             e.preventDefault();
 
-            const userRecipe = {
-                title: e.target['title'].value,
-                publisher: e.target['publisher'].value,
-                sourceUrl: e.target['sourceUrl'].value,
-                imageUrl: e.target['image'].value,
-                servings: Number(e.target['servings'].value),
-                cookingTime: Number(e.target['cookingTime'].value),
-                ingredients: [
-                    {
-                        quantity: e.target['ingredient-1'].value.split('-')[0],
-                        unit: e.target['ingredient-1'].value.split('-')[1],
-                        description: e.target['ingredient-1'].value.split('-')[2],
-                    },
-                    {
-                        quantity: e.target['ingredient-2'].value.split('-')[0],
-                        unit: e.target['ingredient-2'].value.split('-')[1],
-                        description: e.target['ingredient-2'].value.split('-')[2],
-                    },
-                    {
-                        quantity: e.target['ingredient-3'].value.split('-')[0],
-                        unit: e.target['ingredient-3'].value.split('-')[1],
-                        description: e.target['ingredient-3'].value.split('-')[2],
-                    },
-                    {
-                        quantity: e.target['ingredient-4'].value.split('-')[0],
-                        unit: e.target['ingredient-4'].value.split('-')[1],
-                        description: e.target['ingredient-4'].value.split('-')[2],
-                    },
-                    {
-                        quantity: e.target['ingredient-5'].value.split('-')[0],
-                        unit: e.target['ingredient-5'].value.split('-')[1],
-                        description: e.target['ingredient-5'].value.split('-')[2],
-                    },
-                    {
-                        quantity: e.target['ingredient-6'].value.split('-')[0],
-                        unit: e.target['ingredient-6'].value.split('-')[1],
-                        description: e.target['ingredient-6'].value.split('-')[2],
-                    },
-                ].filter(el => el.description !== undefined)
-            }
-            console.log(userRecipe);
-        })
+            handler(this._createUserRecipe(e));
+            
+        }.bind(this))
+    }
+    _createUserRecipe(event) {
+        const userRecipe = {
+            id: `user${this._recipeId}`,
+            title: event.target['title'].value,
+            publisher: event.target['publisher'].value,
+            sourceUrl: event.target['sourceUrl'].value,
+            imageUrl: event.target['image'].value,
+            servings: Number(event.target['servings'].value),
+            user: true,
+            cookingTime: Number(event.target['cookingTime'].value),
+            ingredients: [
+                {
+                    quantity: event.target['ingredient-1'].value.split('-')[0],
+                    unit: event.target['ingredient-1'].value.split('-')[1],
+                    description: event.target['ingredient-1'].value.split('-')[2],
+                },
+                {
+                    quantity: event.target['ingredient-2'].value.split('-')[0],
+                    unit: event.target['ingredient-2'].value.split('-')[1],
+                    description: event.target['ingredient-2'].value.split('-')[2],
+                },
+                {
+                    quantity: event.target['ingredient-3'].value.split('-')[0],
+                    unit: event.target['ingredient-3'].value.split('-')[1],
+                    description: event.target['ingredient-3'].value.split('-')[2],
+                },
+                {
+                    quantity: event.target['ingredient-4'].value.split('-')[0],
+                    unit: event.target['ingredient-4'].value.split('-')[1],
+                    description: event.target['ingredient-4'].value.split('-')[2],
+                },
+                {
+                    quantity: event.target['ingredient-5'].value.split('-')[0],
+                    unit: event.target['ingredient-5'].value.split('-')[1],
+                    description: event.target['ingredient-5'].value.split('-')[2],
+                },
+                {
+                    quantity: event.target['ingredient-6'].value.split('-')[0],
+                    unit: event.target['ingredient-6'].value.split('-')[1],
+                    description: event.target['ingredient-6'].value.split('-')[2],
+                },
+            ].filter(el => el.description !== undefined)
+        }
+        this._recipeId++;
+        return userRecipe;
     }
 }
 

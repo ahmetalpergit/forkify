@@ -32,7 +32,7 @@ const showRecipe = async function () {
   //the id is assigned after the hashchange/load eventlistener.
   const id = window.location.hash.slice(1);
   if (id === '' || !id) return; //stop load event from crashing the app due to empty id on initial load trigger
-
+  if (id.slice(0, 4) === 'user') return recipeView.render(model.state.userRecipes.find(el => el.id === id));
   try {
     //spinner while waiting for the recipe
     recipeView.renderSpinner();
@@ -68,14 +68,18 @@ const controlBookmark = function(recipe) {
   recipeView.addHandlerBookmark(controlBookmark);
 }
 
-const controlAddRecipe = function() {
+const controlUserRecipeHandler = function() {
   addRecipeView.addHandlerHideOverlay();
-  addRecipeView.addHandlerUpload();
+  addRecipeView.addHandlerUpload(controlAddRecipe);
+}
+
+const controlAddRecipe = function(userRecipe) {
+  model.addUserRecipe(userRecipe);
 }
 
 const init = function() {
   //listen for adding a recipe
-  addRecipeView.addHandlerAddRecipe(controlAddRecipe);
+  addRecipeView.addHandlerAddRecipe(controlUserRecipeHandler);
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
@@ -83,9 +87,13 @@ const init = function() {
   //listen for pagination
   pageView.addHandlerPagination(controlPagination);
   //load localstorage bookmarks
-  model.loadLocalStorageBookmarks()
+  model.loadLocalStorageBookmarks();
   //Render local bookmarks
   bookmarkListView.render(model.state.bookmarks);
+  //load localstorage userRecipes
+  model.loadLocalStorageUserRecipes();
+  //render user recipes
+  searchView.render(model.state.userRecipes);
 }
 init();
 

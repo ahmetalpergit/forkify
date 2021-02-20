@@ -7,7 +7,8 @@ export const state = {
         results: []
     },
     recipe: {},
-    bookmarks: []
+    bookmarks: [],
+    userRecipes: []
 };
 
 export const loadRecipeList = async function(query) {
@@ -81,20 +82,33 @@ export const addBookmark = function(recipe) {
     if (hasRecipe) {
         state.bookmarks.splice(index, 1);
         state.recipe.isBookmarked = false;
-        setLocalStorage();
+        setLocalStorage('bookmarks');
     } else {
         state.recipe.isBookmarked = true;
         state.bookmarks.push(recipe)
-        setLocalStorage();
+        setLocalStorage('bookmarks');
     }
 }
 
 export const loadLocalStorageBookmarks = function() {
-    if (localStorage.length === 0) return;
+    //guard close if bookmarks don't exist
+    if (!localStorage.bookmarks) return;
     const localBookmarks = JSON.parse(localStorage.bookmarks);
     state.bookmarks = localBookmarks;
 }
 
-const setLocalStorage = function() {
-    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+export const addUserRecipe = function(recipe) {
+    state.userRecipes.push(recipe);
+    setLocalStorage('userRecipes');
+}
+
+export const loadLocalStorageUserRecipes = function() {
+    //guard close if user recipes don't exist
+    if (!localStorage.userRecipes) return;
+    const localUserRecipes = JSON.parse(localStorage.userRecipes);
+    state.userRecipes = localUserRecipes;
+}
+
+const setLocalStorage = function(type) {
+    localStorage.setItem(type, JSON.stringify(state[type]));
 }
