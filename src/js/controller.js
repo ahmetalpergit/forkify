@@ -70,7 +70,7 @@ const controlBookmark = function(recipe) {
 
 const controlUserRecipeHandler = function() {
   addRecipeView.addHandlerHideOverlay();
-  addRecipeView.addHandlerUpload(controlAddRecipe);
+  addRecipeView.addHandlerUpload(controlAddRecipe, model.state.userRecipeId);
 }
 
 const controlAddRecipe = function(userRecipe) {

@@ -3,7 +3,6 @@ import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to c
 
 class addRecipeView extends View {
     _parentContainer = document.querySelector('.overlay');
-    _recipeId = 0;
 
     addHandlerAddRecipe(handler) {
         document.querySelector('.nav__btn--add-recipe').addEventListener('click', function() {
@@ -20,18 +19,18 @@ class addRecipeView extends View {
             }
         }.bind(this)))
     }
-    addHandlerUpload(handler) {
+    addHandlerUpload(handler, userId) {
         const uploadContainer = document.querySelector('.upload');
         uploadContainer.addEventListener('submit', function(e){
             e.preventDefault();
 
-            handler(this._createUserRecipe(e));
+            handler(this._createUserRecipe(e, userId));
             
         }.bind(this))
     }
-    _createUserRecipe(event) {
+    _createUserRecipe(event, userId) {
         const userRecipe = {
-            id: `user${this._recipeId}`,
+            id: `user${userId}`,
             title: event.target['title'].value,
             publisher: event.target['publisher'].value,
             sourceUrl: event.target['sourceUrl'].value,
@@ -72,7 +71,6 @@ class addRecipeView extends View {
                 },
             ].filter(el => el.description !== undefined)
         }
-        this._recipeId++;
         return userRecipe;
     }
 }
