@@ -49,7 +49,6 @@ class RecipeView extends View {
     addHandlerBookmark(handler) {
         const bookmarkBtn = document.querySelector('.btn--round')
         bookmarkBtn.addEventListener('click', function() {
-            bookmarkBtn.querySelectorAll('svg').forEach(el => el.classList.toggle('noDisplay'))
             handler(this._data)
         }.bind(this))
     }
@@ -97,11 +96,8 @@ class RecipeView extends View {
                 </svg>
             </div>
             <button class="btn--round">
-                <svg class="noDisplay">
-                    <use href="${icons}#icon-bookmark-fill"></use>
-                </svg>
                 <svg>
-                    <use href="${icons}#icon-bookmark"></use>
+                    <use href="${icons}#icon-bookmark${this._data.isBookmarked ? '-fill' : ''}"></use>
                 </svg>
             </button>
             </div>

@@ -45,6 +45,8 @@ export const loadRecipe = async function(id) {
           ingredients: recipe.ingredients,
           cookingTime: recipe.cooking_time,
         }
+
+        state.recipe.isBookmarked = state.bookmarks.some(el => el.id === state.recipe.id);
     }
     catch (err) {
         console.error(err);
@@ -73,12 +75,14 @@ export const addBookmark = function(recipeStr) {
     let index;  //index of the element if found by some method
     const hasRecipe = state.bookmarks.some((rec, i) => {
         index = i;  //updates index until it finds one and then breaks the execution
-        return JSON.stringify(rec) === recipeStr
+        return rec.id === recipeStr.id
     });
 
     if (hasRecipe) {
         state.bookmarks.splice(index, 1);
+        state.recipe.isBookmarked = false;
     } else {
-        state.bookmarks.push(JSON.parse(recipeStr))
+        state.recipe.isBookmarked = true;
+        state.bookmarks.push(recipeStr)
     }
 }

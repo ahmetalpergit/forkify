@@ -39,6 +39,7 @@ const showRecipe = async function () {
     recipeView.render(model.state.recipe)
     //listen for serving
     recipeView.addHandlerServing(controlServing);
+    //listen for bookmark
     recipeView.addHandlerBookmark(controlBookmark);
   } catch (err) {
     console.error(err.message);
@@ -57,8 +58,13 @@ const controlServing = function(action) {
 }
 
 const controlBookmark = function(recipe) {
-  model.addBookmark(JSON.stringify(recipe));
+  model.addBookmark(recipe);
   bookmarkListView.render(model.state.bookmarks);
+  recipeView.render(model.state.recipe)
+  //listen for serving
+  recipeView.addHandlerServing(controlServing);
+  //listen for bookmark
+  recipeView.addHandlerBookmark(controlBookmark);
 }
 
 const init = function() {
