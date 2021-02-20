@@ -71,18 +71,30 @@ export const getResultsPage = function(page) {
     return state.search.results.slice(start, end);
 }
 
-export const addBookmark = function(recipeStr) {
+export const addBookmark = function(recipe) {
     let index;  //index of the element if found by some method
     const hasRecipe = state.bookmarks.some((rec, i) => {
         index = i;  //updates index until it finds one and then breaks the execution
-        return rec.id === recipeStr.id
+        return rec.id === recipe.id
     });
 
     if (hasRecipe) {
         state.bookmarks.splice(index, 1);
         state.recipe.isBookmarked = false;
+        setLocalStorage();
     } else {
         state.recipe.isBookmarked = true;
-        state.bookmarks.push(recipeStr)
+        state.bookmarks.push(recipe)
+        setLocalStorage();
     }
+}
+
+export const loadLocalStorageBookmarks = function() {
+    if (localStorage.length === 0) return;
+    const localBookmarks = JSON.parse(localStorage.bookmarks);
+    state.bookmarks = localBookmarks;
+}
+
+const setLocalStorage = function() {
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 }

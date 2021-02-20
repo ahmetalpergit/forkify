@@ -74,6 +74,10 @@ const init = function() {
   searchView.addHandlerRender(showSearchResults);
   //listen for pagination
   pageView.addHandlerPagination(controlPagination);
+  //load localstorage bookmarks
+  model.loadLocalStorageBookmarks()
+  //Render local bookmarks
+  bookmarkListView.render(model.state.bookmarks);
 }
 init();
 
