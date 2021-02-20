@@ -23,10 +23,13 @@ class userRecipeView extends View {
         const uploadContainer = document.querySelector('.upload');
         uploadContainer.addEventListener('submit', function(e){
             e.preventDefault();
-
             handler(this._createUserRecipe(e, userId));
-            
+            this._parentContainer.classList.add('hidden');
+            this._clear();
         }.bind(this))
+    }
+    _clear() {
+        document.querySelectorAll('.upload input').forEach(el => el.value = '');
     }
     _createUserRecipe(event, userId) {
         const userRecipe = {

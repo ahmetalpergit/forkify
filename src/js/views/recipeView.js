@@ -98,11 +98,19 @@ class RecipeView extends View {
                         </svg>
                     </div>
                     ` : ''}
+                    ${this._data.user ? `
+                    <button class="btn--round btn--delete">
+                        <svg>
+                            <use href="${icons}#icon-minus-circle"></use>
+                        </svg>
+                    </button>
+                    ` : `
                     <button class="btn--round">
                         <svg>
                             <use href="${icons}#icon-bookmark${this._data.isBookmarked ? '-fill' : ''}"></use>
                         </svg>
                     </button>
+                    `}
                 </div>
             </div>
         
