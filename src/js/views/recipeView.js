@@ -40,9 +40,9 @@ class RecipeView extends View {
             if (!e.target.closest('.btn--tiny') || e.target.closest('.btn--tiny').classList.contains('hidden')) return;
             //designate the action and call the handler
             if (e.target.closest('.btn--tiny').classList.contains('btn--increase-servings')) {
-                handler('increase');
+                handler('increase', this._data);
             } else {
-                handler('decrease');
+                handler('decrease', this._data);
             }
         }.bind(this))
     }

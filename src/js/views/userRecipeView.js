@@ -1,7 +1,7 @@
 import View from './View';
 import icons from 'url:../../img/icons.svg'; //loading the icons for parcel to convert them later
 
-class addRecipeView extends View {
+class userRecipeView extends View {
     _parentContainer = document.querySelector('.overlay');
 
     addHandlerAddRecipe(handler) {
@@ -75,4 +75,4 @@ class addRecipeView extends View {
     }
 }
 
-export default new addRecipeView();
+export default new userRecipeView();

@@ -5,7 +5,7 @@ import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import pageView from './views/pageView';
 import bookmarkListView from './views/bookmarkListView';
-import addRecipeView from './views/addRecipeView';
+import userRecipeView from './views/userRecipeView';
 
 ///////////////////////////////////////
 
@@ -32,7 +32,12 @@ const showRecipe = async function () {
   //the id is assigned after the hashchange/load eventlistener.
   const id = window.location.hash.slice(1);
   if (id === '' || !id) return; //stop load event from crashing the app due to empty id on initial load trigger
-  if (id.slice(0, 4) === 'user') return recipeView.render(model.state.userRecipes.find(el => el.id === id));
+  if (id.slice(0, 4) === 'user') {
+    recipeView.render(model.state.userRecipes.find(el => el.id === id));
+    //listen for serving
+    recipeView.addHandlerServing(controlServing);
+    return;
+  }
   try {
     //spinner while waiting for the recipe
     recipeView.renderSpinner();
@@ -53,7 +58,8 @@ const controlPagination = function(page) {
   pageView.render(model.state.search.currentPage, model.state.search.totalPage);
 }
 
-const controlServing = function(action) {
+const controlServing = function(action, data) {
+  model.state.recipe = data;
   model.updateServings(action);
   recipeView.update(model.state.recipe);
 }
@@ -69,8 +75,8 @@ const controlBookmark = function(recipe) {
 }
 
 const controlUserRecipeHandler = function() {
-  addRecipeView.addHandlerHideOverlay();
-  addRecipeView.addHandlerUpload(controlAddRecipe, model.state.userRecipeId);
+  userRecipeView.addHandlerHideOverlay();
+  userRecipeView.addHandlerUpload(controlAddRecipe, model.state.userRecipeId);
 }
 
 const controlAddRecipe = function(userRecipe) {
@@ -79,7 +85,7 @@ const controlAddRecipe = function(userRecipe) {
 
 const init = function() {
   //listen for adding a recipe
-  addRecipeView.addHandlerAddRecipe(controlUserRecipeHandler);
+  userRecipeView.addHandlerAddRecipe(controlUserRecipeHandler);
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
