@@ -10,7 +10,7 @@ class pageView extends View {
     render(currentPage, totalPage) {
         this._currentPage = currentPage;
         this._totalPage = totalPage;
-
+        this._clear();
         this._parentContainer.insertAdjacentHTML('beforeend', this._renderPagination(currentPage));
     }
 
