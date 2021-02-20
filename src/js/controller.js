@@ -5,6 +5,7 @@ import recipeView from './views/recipeView';
 import searchView from './views/searchView';
 import pageView from './views/pageView';
 import bookmarkListView from './views/bookmarkListView';
+import addRecipeView from './views/addRecipeView';
 
 ///////////////////////////////////////
 
@@ -67,7 +68,13 @@ const controlBookmark = function(recipe) {
   recipeView.addHandlerBookmark(controlBookmark);
 }
 
+const controlAddRecipe = function() {
+  addRecipeView.addHandlerHideOverlay();
+}
+
 const init = function() {
+  //listen for adding a recipe
+  addRecipeView.addHandlerAddRecipe(controlAddRecipe);
   //listen for events to load specific recipe
   recipeView.addHandlerRender(showRecipe);
   //listen for search bar submit
