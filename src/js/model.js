@@ -8,8 +8,7 @@ export const state = {
     },
     recipe: {},
     bookmarks: [],
-    userRecipes: [],
-    userRecipeId: 0
+    userRecipes: []
 };
 
 export const loadRecipeList = async function(query) {
@@ -108,7 +107,6 @@ export const loadLocalStorageUserRecipes = function() {
     if (!localStorage.userRecipes) return;
     const localUserRecipes = JSON.parse(localStorage.userRecipes);
     state.userRecipes = localUserRecipes;
-    state.userRecipeId = state.userRecipes.length;
 }
 
 const setLocalStorage = function(type) {

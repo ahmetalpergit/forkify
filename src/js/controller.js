@@ -76,11 +76,12 @@ const controlBookmark = function(recipe) {
 
 const controlUserRecipeHandler = function() {
   userRecipeView.addHandlerHideOverlay();
-  userRecipeView.addHandlerUpload(controlAddRecipe, model.state.userRecipeId);
+  userRecipeView.addHandlerUpload(controlAddRecipe);
 }
 
 const controlAddRecipe = function(userRecipe) {
   model.addUserRecipe(userRecipe);
+  searchView.render(model.state.userRecipes);
 }
 
 const init = function() {
