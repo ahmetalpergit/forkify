@@ -25,10 +25,10 @@ class userRecipeView extends View {
             e.preventDefault();
             handler(this._createUserRecipe(e, userId));
             this._parentContainer.classList.add('hidden');
-            this._clear();
+            this._clearInput();
         }.bind(this))
     }
-    _clear() {
+    _clearInput() {
         document.querySelectorAll('.upload input').forEach(el => el.value = '');
     }
     _createUserRecipe(event, userId) {
