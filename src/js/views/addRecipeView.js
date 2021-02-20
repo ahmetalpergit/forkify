@@ -19,6 +19,54 @@ class addRecipeView extends View {
             }
         }.bind(this)))
     }
+    addHandlerUpload() {
+        const uploadContainer = document.querySelector('.upload');
+        uploadContainer.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const userRecipe = {
+                title: e.target['title'].value,
+                publisher: e.target['publisher'].value,
+                sourceUrl: e.target['sourceUrl'].value,
+                imageUrl: e.target['image'].value,
+                servings: Number(e.target['servings'].value),
+                cookingTime: Number(e.target['cookingTime'].value),
+                ingredients: [
+                    {
+                        quantity: e.target['ingredient-1'].value.split('-')[0],
+                        unit: e.target['ingredient-1'].value.split('-')[1],
+                        description: e.target['ingredient-1'].value.split('-')[2],
+                    },
+                    {
+                        quantity: e.target['ingredient-2'].value.split('-')[0],
+                        unit: e.target['ingredient-2'].value.split('-')[1],
+                        description: e.target['ingredient-2'].value.split('-')[2],
+                    },
+                    {
+                        quantity: e.target['ingredient-3'].value.split('-')[0],
+                        unit: e.target['ingredient-3'].value.split('-')[1],
+                        description: e.target['ingredient-3'].value.split('-')[2],
+                    },
+                    {
+                        quantity: e.target['ingredient-4'].value.split('-')[0],
+                        unit: e.target['ingredient-4'].value.split('-')[1],
+                        description: e.target['ingredient-4'].value.split('-')[2],
+                    },
+                    {
+                        quantity: e.target['ingredient-5'].value.split('-')[0],
+                        unit: e.target['ingredient-5'].value.split('-')[1],
+                        description: e.target['ingredient-5'].value.split('-')[2],
+                    },
+                    {
+                        quantity: e.target['ingredient-6'].value.split('-')[0],
+                        unit: e.target['ingredient-6'].value.split('-')[1],
+                        description: e.target['ingredient-6'].value.split('-')[2],
+                    },
+                ].filter(el => el.description !== undefined)
+            }
+            console.log(userRecipe);
+        })
+    }
 }
 
 export default new addRecipeView();
