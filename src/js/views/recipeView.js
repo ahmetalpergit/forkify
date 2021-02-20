@@ -47,9 +47,15 @@ class RecipeView extends View {
         }.bind(this))
     }
     addHandlerBookmark(handler) {
-        const bookmarkBtn = document.querySelector('.btn--round')
+        const bookmarkBtn = document.querySelector('.btn--round');
         bookmarkBtn.addEventListener('click', function() {
-            handler(this._data)
+            handler(this._data);
+        }.bind(this))
+    }
+    addHandlerDelete(handler) {
+        const deleteBtn = document.querySelector('.btn--delete');
+        deleteBtn.addEventListener('click', function() {
+            handler(this._data);
         }.bind(this))
     }
     _generateMarkup() {

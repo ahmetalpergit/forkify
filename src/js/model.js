@@ -102,6 +102,16 @@ export const addUserRecipe = function(recipe) {
     setLocalStorage('userRecipes');
 }
 
+export const removeUserRecipe = function(recipe) {
+    let index;
+    state.userRecipes.some((rec, i) => {
+        index = i;
+        return rec.id === recipe.id;
+    })
+    state.userRecipes.splice(index, 1);
+    setLocalStorage('userRecipes');
+}
+
 export const loadLocalStorageUserRecipes = function() {
     //guard close if user recipes don't exist
     if (!localStorage.userRecipes) return;

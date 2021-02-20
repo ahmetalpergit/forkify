@@ -36,6 +36,7 @@ const showRecipe = async function () {
     recipeView.render(model.state.userRecipes.find(el => el.id === id));
     //listen for serving
     recipeView.addHandlerServing(controlServing);
+    recipeView.addHandlerDelete(controlDeleteUserRecipe);
     return;
   }
   try {
@@ -81,6 +82,11 @@ const controlUserRecipeHandler = function() {
 
 const controlAddRecipe = function(userRecipe) {
   model.addUserRecipe(userRecipe);
+  searchView.render(model.state.userRecipes);
+}
+
+const controlDeleteUserRecipe = function(recipe) {
+  model.removeUserRecipe(recipe);
   searchView.render(model.state.userRecipes);
 }
 
