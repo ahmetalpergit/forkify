@@ -5,6 +5,10 @@ class userRecipeView extends View {
     _parentContainer = document.querySelector('.overlay');
 
     addHandlerAddRecipe(handler) {
+        document.querySelector('.header__logo').addEventListener('click', function() {
+            window.location.hash = '';
+            location.reload();
+        })
         document.querySelector('.nav__btn--add-recipe').addEventListener('click', function() {
             this._parentContainer.classList.remove('hidden');
             handler();

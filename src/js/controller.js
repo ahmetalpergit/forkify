@@ -109,8 +109,8 @@ const init = function() {
   bookmarkListView.render(model.state.bookmarks);
   //load localstorage userRecipes
   model.loadLocalStorageUserRecipes();
-  //render user recipes
-  searchView.render(model.state.userRecipes);
+  //render user recipes and bookmarks
+  searchView.render([...model.state.userRecipes, ...model.state.bookmarks]);
 }
 init();
 
