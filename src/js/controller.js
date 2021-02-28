@@ -88,6 +88,10 @@ const controlAddRecipe = function(userRecipe) {
 const controlDeleteUserRecipe = function(recipe) {
   model.removeUserRecipe(recipe);
   searchView.render(model.state.userRecipes);
+  if (model.state.userRecipes.length === 0) {
+    window.location.hash = '';
+    location.reload();
+  }
 }
 
 const init = function() {
