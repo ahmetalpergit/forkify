@@ -99,6 +99,7 @@ export const loadLocalStorageBookmarks = function() {
 }
 
 export const addUserRecipe = function(recipe) {
+    if (recipe === undefined) return;
     state.userRecipes.push(recipe);
     setLocalStorage('userRecipes');
 }

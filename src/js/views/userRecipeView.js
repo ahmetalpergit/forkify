@@ -16,22 +16,26 @@ class userRecipeView extends View {
         [this._parentContainer, closeBtn].forEach(event => event.addEventListener('click', function(e) {
             if (e.target === this._parentContainer || e.target === closeBtn) {
                 this._parentContainer.classList.add('hidden');
+                this._clearInput();
             }
         }.bind(this)))
     }
     addHandlerUpload(handler) {
         const uploadContainer = document.querySelector('.upload');
-        uploadContainer.addEventListener('submit', function(e){
+        const listener = (e) => {
             e.preventDefault();
             handler(this._createUserRecipe(e));
             this._parentContainer.classList.add('hidden');
             this._clearInput();
-        }.bind(this))
+        }
+        uploadContainer.addEventListener('submit', listener.bind(this));
+        uploadContainer.removeEventListener('submit', listener.bind(this));
     }
     _clearInput() {
         document.querySelectorAll('.upload input').forEach(el => el.value = '');
     }
     _createUserRecipe(event) {
+        if (event.target[0].value === "") return;
         const userRecipe = {
             id: `user${(Date.now() + '').slice(-10)}`,
             title: event.target['title'].value,
