@@ -68,7 +68,7 @@ export const getResultsPage = function(page) {
     const start = (page - 1) * PAGINATION_PAGE_COUNT;
     const end = page * PAGINATION_PAGE_COUNT;
     state.search.currentPage = page;
-    state.search.totalPage = Math.ceil(state.search.results.length / PAGINATION_PAGE_COUNT);
+    state.search.totalPage = Math.ceil((state.search.results.length + state.userRecipes?.length)/ PAGINATION_PAGE_COUNT);
 
     return start === 0 ? [...state.userRecipes, ...state.search.results.slice(start, end)] : [...state.search.results.slice(start, end)];
 }
