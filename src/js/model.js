@@ -69,7 +69,8 @@ export const getResultsPage = function(page) {
     const end = page * PAGINATION_PAGE_COUNT;
     state.search.currentPage = page;
     state.search.totalPage = Math.ceil(state.search.results.length / PAGINATION_PAGE_COUNT);
-    return [...state.userRecipes, ...state.search.results.slice(start, end)];
+
+    return start === 0 ? [...state.userRecipes, ...state.search.results.slice(start, end)] : [...state.search.results.slice(start, end)];
 }
 
 export const addBookmark = function(recipe) {
